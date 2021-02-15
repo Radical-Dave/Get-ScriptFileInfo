@@ -51,6 +51,7 @@ https://github.com/Radical-Dave/Get-ScriptFileInfo
 #####################################################
 Param(
 	# Path of script
+    [ValidateScript({Test-Path $_})]
 	[Parameter(Mandatory=$false, Position=0)] [string]$path,
     # Set - Set Global variables from ScriptFileInfo
     [Parameter(Mandatory=$false)] [switch]$Set = $false
@@ -60,6 +61,7 @@ $PSScriptName = $MyInvocation.MyCommand.Name.Replace(".ps1","")
 Write-Verbose "$PSScriptName start -Set:$Set"
 
 if (!$path) { $path = $PSScriptPath}
+if (!$path) { $path = $MyInvocation.MyCommand.Path}
 Write-Verbose "path:$path"
 $PSScriptScript = Get-Content $path
 Write-Verbose "PSScriptScript.Length:$($PSScriptScript.Length)"
